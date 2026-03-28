@@ -10,7 +10,7 @@ pytest
 httpx
 Pillow
 numpy
-#tensorflow
+tensorflow
 opencv-python
 tf-keras
 email-validator
