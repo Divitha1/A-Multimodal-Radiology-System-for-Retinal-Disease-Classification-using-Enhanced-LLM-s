@@ -15,59 +15,33 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const formData = new URLSearchParams();
-      formData.append('username', email);
-      formData.append('password', password);
+      // Demo Mode: Mock login delay and success
+      await new Promise(resolve => setTimeout(resolve, 800));
 
-      const response = await fetch('https://your-backend-url.onrender.comhttps://your-backend-url.onrender.com/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData,
-      });
-
-      const contentType = response.headers.get('content-type');
-      let data: any = {};
+      localStorage.setItem('token', 'demo_token_123');
       
-      if (contentType && contentType.includes('application/json')) {
-        data = await response.json();
+      // Fallback profile if none exists from register
+      let userProfile = localStorage.getItem('user_profile');
+      let profileObj = userProfile ? JSON.parse(userProfile) : null;
+      
+      if (!profileObj) {
+        profileObj = {
+          fullName: 'Demo Doctor',
+          email: email,
+          role: 'doctor', // default to doctor for dashboard demo
+          bio: 'Radiology Specialist',
+          theme: 'light'
+        };
+        localStorage.setItem('user_profile', JSON.stringify(profileObj));
       }
 
-      if (!response.ok) {
-        throw new Error(data?.detail || `Diagnostic node returned status ${response.status}. Verify backend link.`);
-      }
-
-      localStorage.setItem('token', data.access_token);
-      
-      // Fetch user profile to ensure localStorage is in sync for demo features
-      const meResponse = await fetch('https://your-backend-url.onrender.comhttps://your-backend-url.onrender.com/api/auth/me', {
-        headers: { 'Authorization': `Bearer ${data.access_token}` }
-      });
-      
-      if (!meResponse.ok) {
-        throw new Error("Neural profile synchronization failed. Re-authenticating...");
-      }
-      
-      const meData = await meResponse.json();
-      
-      localStorage.setItem('user_profile', JSON.stringify({
-        fullName: meData.full_name,
-        email: meData.email,
-        role: meData.role,
-        bio: meData.bio,
-        theme: meData.theme
-      }));
-
-      if (meData.role === 'doctor') {
+      if (profileObj.role === 'radiologist' || profileObj.role === 'doctor') {
         navigate('/doctor-dashboard');
       } else {
         navigate('/patient-dashboard');
       }
     } catch (err: any) {
-      if (err.name === 'SyntaxError') {
-        setError("Neural Hub returned an invalid payload. The backend link may be interrupted.");
-      } else {
-        setError(err.message || "An unexpected telemetry error occurred.");
-      }
+      setError(err.message || "An unexpected telemetry error occurred.");
     } finally {
       setLoading(false);
     }

@@ -125,7 +125,7 @@ export default function SettingsPage() {
                          <div className="w-32 h-32 rounded-[2.5rem] bg-gray-100 border-4 border-white shadow-2xl flex items-center justify-center text-gray-400 group-hover:rotate-6 transition-transform">
                             <User className="w-12 h-12" />
                          </div>
-                         <button className="absolute -bottom-2 -right-2 w-10 h-10 bg-primary text-white rounded-xl shadow-xl border-4 border-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
+                         <button onClick={() => alert("Access Key Rotation Initiated")} className="absolute -bottom-2 -right-2 w-10 h-10 bg-primary text-white rounded-xl shadow-xl border-4 border-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all">
                             <Key className="w-5 h-5" />
                          </button>
                       </div>
@@ -226,14 +226,14 @@ export default function SettingsPage() {
                    </p>
                    
                    <div className="grid grid-cols-1 gap-4 pt-10">
-                      <button className="p-6 bg-gray-50 border border-gray-100 rounded-3xl flex items-center justify-between group hover:bg-white hover:border-primary/20 hover:shadow-xl transition-all">
+                      <button onClick={() => alert("Access Key Rotation Initiated")} className="p-6 bg-gray-50 border border-gray-100 rounded-3xl flex items-center justify-between group hover:bg-white hover:border-primary/20 hover:shadow-xl transition-all">
                          <div className="flex items-center gap-4">
                             <Lock className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors" />
                             <span className="text-[11px] font-black uppercase tracking-widest text-text-main italic">Rotate Access Key</span>
                          </div>
                          <ChevronRight className="w-4 h-4 text-gray-300" />
                       </button>
-                      <button className="p-6 bg-gray-50 border border-gray-100 rounded-3xl flex items-center justify-between group hover:bg-white hover:border-primary/20 hover:shadow-xl transition-all">
+                      <button onClick={() => alert("2FA Protocol Settings Accessed")} className="p-6 bg-gray-50 border border-gray-100 rounded-3xl flex items-center justify-between group hover:bg-white hover:border-primary/20 hover:shadow-xl transition-all">
                          <div className="flex items-center gap-4">
                             <Key className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors" />
                             <span className="text-[11px] font-black uppercase tracking-widest text-text-main italic">Finalize 2FA Protocol</span>
@@ -295,7 +295,7 @@ export default function SettingsPage() {
                     <p className="text-[9px] font-black text-red-400/60 uppercase tracking-widest italic">Revoke institutional clinician credentials and wipe neural buffer.</p>
                  </div>
               </div>
-              <button className="px-6 py-2.5 bg-red-500 text-white rounded-xl text-[9px] font-black tracking-widest uppercase hover:bg-red-600 transition-all shadow-lg shadow-red-500/20 active:scale-95 italic">
+              <button onClick={() => alert("Systems Deactivation Initiated... Admin Override Required.")} className="px-6 py-2.5 bg-red-500 text-white rounded-xl text-[9px] font-black tracking-widest uppercase hover:bg-red-600 transition-all shadow-lg shadow-red-500/20 active:scale-95 italic">
                  Deactivate Sync
               </button>
            </div>

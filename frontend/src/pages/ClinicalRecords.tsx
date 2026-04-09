@@ -45,14 +45,7 @@ export default function ClinicalRecords() {
     }));
 
     try {
-      const response = await fetch('https://your-backend-url.onrender.comhttps://your-backend-url.onrender.com/api/analysis/fuse', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ findings: selectedData }),
-      });
-
-      if (!response.ok) throw new Error('Fusion failed');
-      await response.json();
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Update reports with fused state
       setReports(prev => prev.map(r => 

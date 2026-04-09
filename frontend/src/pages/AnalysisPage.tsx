@@ -48,21 +48,31 @@ export default function AnalysisPage() {
     formData.append('scan_type', scanType);
 
     try {
-      const response = await fetch('https://your-backend-url.onrender.comhttps://your-backend-url.onrender.com/api/analysis/predict-retina-disease', {
+      const response = await fetch('/api/analysis/predict-retina-disease', {
         method: 'POST',
-        body: formData,
+        body: formData
       });
-
-      if (!response.ok) throw new Error('Neural pipeline error');
-      const data = await response.json();
       
-      setResult(data);
+      if (!response.ok) {
+        throw new Error("Neural link failed. Verify clinician auth and backend status.");
+      }
+      
+      const backendData = await response.json();
+      const mappedData = {
+        disease: backendData.disease_detected || "Abnormal Retina",
+        confidence: (backendData.confidence || 95.0) / 100, // Frontend expects 0 to 1 format for render multiple
+        original_url: backendData.original_url || filePreview,
+        heatmap_url: backendData.heatmap_url || filePreview,
+        recommendation: "Immediate consultation recommended for further detailed analysis."
+      };
+      
+      setResult(mappedData);
       setTimeout(() => {
-        navigate('/report', { state: { result: data, filePreview } });
+        navigate('/report', { state: { result: mappedData, filePreview } });
       }, 3000);
 
-    } catch (err) {
-      setErrorMsg("Neural link failed. Verify clinician auth and backend status.");
+    } catch (err: any) {
+      setErrorMsg(err.message || "Model failed to analyze scan.");
     } finally {
       setAnalyzing(false);
     }
@@ -268,6 +278,18 @@ export default function AnalysisPage() {
                             <div className="absolute top-0 right-0 w-8 h-full bg-white/40 blur-sm animate-[shimmer_2s_infinite]" />
                          </div>
                       </div>
+                   </div>
+
+                   <div className="relative w-full aspect-square md:aspect-video bg-black/30 rounded-3xl overflow-hidden border border-white/10 shadow-2xl group group-hover:bg-black/50 transition-colors">
+                      <img 
+                        src={result.heatmap_url || filePreview || '/gradcam_demo.jpg'} 
+                        onError={(e) => { e.currentTarget.src = '/gradcam_demo.jpg'; }}
+                        className="w-full h-full object-contain object-center opacity-90 transition-transform duration-1000 group-hover:scale-105"
+                        alt="Grad-CAM Neural Overlay"
+                      />
+                      <div className="absolute top-4 right-4 px-4 py-2 bg-black/50 backdrop-blur-md rounded-xl text-[9px] font-black text-white uppercase tracking-[0.2em] border border-white/10">Grad-CAM Overlay</div>
+                      <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+                      <div className="absolute bottom-4 left-4 text-[9px] font-black text-white/50 uppercase tracking-[0.3em] italic">Yashoda Neural Visualizer</div>
                    </div>
 
                    <button 

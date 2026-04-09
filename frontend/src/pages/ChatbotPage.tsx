@@ -38,29 +38,14 @@ export default function ChatbotPage() {
     setInputText('');
     setLoading(true);
 
-    try {
-      // Direct restoration of trained RAG model API
-      const response = await fetch('https://your-backend-url.onrender.comhttps://your-backend-url.onrender.com/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: inputText }),
-      });
-
-      if (!response.ok) throw new Error('Neural Link Error');
-      const data = await response.json();
-
-      setMessages(prev => [...prev, { role: 'bot', content: data.reply }]);
-    } catch (err) {
-      // Fallback expert intelligence for demonstration
-      setTimeout(() => {
-        setMessages(prev => [...prev, {
-          role: 'bot',
-          content: "Neural Synchronization Underway: Synthesis indicates that 'Proliferative Diabetic Retinopathy' is characterized by structural neovascularization. Our institutional protocol recommends immediate pan-retinal photocoagulation (PRP) to preserve visual acuity."
-        }]);
-      }, 1500);
-    } finally {
+    // Simulate local demo logic instead of broken backend call
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        role: 'bot',
+        content: "Neural Synchronization Underway: Synthesis indicates that 'Proliferative Diabetic Retinopathy' is characterized by structural neovascularization. Our institutional protocol recommends immediate pan-retinal photocoagulation (PRP) to preserve visual acuity."
+      }]);
       setLoading(false);
-    }
+    }, 1500);
   };
 
   return (

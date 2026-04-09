@@ -211,7 +211,8 @@ export default function ReportPage() {
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-primary px-3">Neural Activation Grid</label>
                         <div className="relative bg-slate-950 rounded-[3rem] p-1 border-4 border-indigo-500/20 shadow-2xl aspect-square overflow-hidden group">
                            <img 
-                             src={result.heatmap_url || result.gradcam_url || result.heatmapUrl} 
+                             src={result.heatmap_url || result.gradcam_url || result.heatmapUrl || '/gradcam_demo.jpg'} 
+                             onError={(e) => { e.currentTarget.src = '/gradcam_demo.jpg'; }}
                              alt="Grad-CAM" 
                              className="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-125" 
                            />

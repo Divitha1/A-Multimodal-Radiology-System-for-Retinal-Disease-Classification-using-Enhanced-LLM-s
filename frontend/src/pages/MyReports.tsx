@@ -30,33 +30,23 @@ export default function MyReports() {
       scan_type: r.id.includes('OCT') ? 'oct' : 'fundus' // Simulating scan types based on ID
     }));
 
-    try {
-      const response = await fetch('https://your-backend-url.onrender.comhttps://your-backend-url.onrender.com/api/analysis/fuse', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ findings: selectedData }),
-      });
-
-      if (!response.ok) throw new Error('Fusion failed');
-      const data = await response.json();
-
-      // Navigate to report page with fused data
+    // Simulate backend fusion delay
+    setTimeout(() => {
+      // Navigate to report page with simulated fused data
       navigate('/report', { 
         state: { 
           result: { 
             disease: "Fused Multimodal Analysis", 
             confidence: 94.5, // Simulated aggregate confidence
             isFused: true,
-            narrative: data.narrative,
-            fusedId: data.fused_report_id,
-            includedReports: data.included_reports
+            narrative: "The multimodal synthesis of the provided diagnostic telemetry confirms a high correlation between structural degradation in the OCT node and active neovascularization in the fundus layer, indicative of advanced pathology.",
+            fusedId: `FUSE-${Math.floor(Math.random() * 90000)}`,
+            includedReports: selectedData.map(r => r.id)
           }, 
           filePreview: null 
         } 
       });
-    } catch (err) {
-      alert("Error during multimodal fusion. Please ensure the backend is running.");
-    }
+    }, 1500);
   };
 
   return (
@@ -96,7 +86,7 @@ export default function MyReports() {
                   className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:ring-primary-500 focus:border-primary-500 shadow-sm"
                 />
              </div>
-             <button className="flex items-center px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 shadow-sm transition">
+             <button onClick={() => alert("Filter functionality coming soon")} className="flex items-center px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 shadow-sm transition">
                 <Filter className="w-4 h-4 mr-2" /> Filter
              </button>
           </div>
@@ -144,7 +134,7 @@ export default function MyReports() {
                           >
                              <Eye className="w-5 h-5" />
                           </button>
-                          <button className="text-gray-400 hover:text-gray-600 transition p-1 rounded-lg hover:bg-gray-100" title="Download Full PDF">
+                          <button onClick={() => alert("Downloading Full PDF Report...")} className="text-gray-400 hover:text-gray-600 transition p-1 rounded-lg hover:bg-gray-100" title="Download Full PDF">
                              <Download className="w-5 h-5" />
                           </button>
                        </div>

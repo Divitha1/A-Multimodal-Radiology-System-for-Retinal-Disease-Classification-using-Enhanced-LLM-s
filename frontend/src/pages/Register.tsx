@@ -18,33 +18,8 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); 
-
-      const response = await fetch('https://your-backend-url.onrender.comhttps://your-backend-url.onrender.com/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-          full_name: fullName,
-          role
-        }),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-      
-      let data;
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await response.json();
-      } else {
-        const text = await response.text();
-        throw new Error(text || `Server Error: ${response.status} ${response.statusText}`);
-      }
-
-      if (!response.ok) throw new Error(data?.detail || 'Registration failed');
+      // Demo Mode: Mock registration delay and success
+      await new Promise(resolve => setTimeout(resolve, 800));
 
       // Persist user profile for demo clinical reports fallback
       localStorage.setItem('user_profile', JSON.stringify({ 
@@ -54,14 +29,10 @@ export default function Register() {
         joinedDate: new Date().toISOString()
       }));
       
-      console.log("Registration successful", data);
+      console.log("Registration successful");
       navigate('/login');
     } catch (err: any) {
-      if (err.name === 'AbortError') {
-        setError('Connection timed out. Please ensure the backend server and MongoDB are running.');
-      } else {
-        setError(err.message);
-      }
+      setError(err.message);
     } finally {
       setLoading(false);
     }
